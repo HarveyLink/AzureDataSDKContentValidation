@@ -52,15 +52,40 @@ namespace DataAutoFramework.TestCases
             var errorList = new List<string>();
             var web = new HtmlWeb();
             var doc = web.Load(testLink);
-            foreach (var item in doc.DocumentNode.SelectNodes("//div[contains(@class, 'notranslate')]"))
+            var codeBlocks = doc.DocumentNode.SelectNodes("//div[contains(@class, 'notranslate')]");
+            if (codeBlocks != null)
             {
-                var text = item.InnerText;
-                text = text.TrimEnd('\n');
-                var newCode = await ValidationHelper.ParsePythonCode(text);
-                Console.WriteLine(text);
-            }
+                foreach (var item in codeBlocks)
+                {
+                    if (item.Attributes["class"].Value.Contains("highlight-bash"))
+                    {
+                        if (item.InnerText.StartsWith(" "))
+                        {
+                            errorList.Add(item.InnerText);
+                        }
+                    }
+                    else if (item.Attributes["class"].Value.Contains("highlight-python"))
+                    {
+                        var text = item.InnerText;
+                        // TODO, the page text somehow contains a extra new line at the end
+                        // We need to confirm if it is common or not
+                        text = text.TrimEnd('\n');
+                        var newCode = await ValidationHelper.ParsePythonCode(text);
+                        if (newCode != text)
+                        {
+                            Console.WriteLine("New Code: " + newCode);
+                            errorList.Add(item.InnerText);
+                        }
+                    }
+                }
 
-            ClassicAssert.Zero(errorList.Count, testLink + " has wrong format" + string.Join(",", errorList));
+                ClassicAssert.Zero(errorList.Count, testLink + " has wrong format" + string.Join(",", errorList));
+            }
+            else
+            {
+                Console.WriteLine("No code block found in " + testLink);
+            }
+            
         }
     }
 }

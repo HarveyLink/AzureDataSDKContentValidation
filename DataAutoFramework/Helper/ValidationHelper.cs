@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Runtime.InteropServices.JavaScript;
 using System.Security.AccessControl;
@@ -10,6 +11,10 @@ using System.Text;
 using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 using System.Web;
+using CodeParser;
+using static Python3Parser;
+﻿using Antlr4.Runtime;
+using Antlr4.Runtime.Tree;
 
 namespace DataAutoFramework.Helper
 {
@@ -32,10 +37,11 @@ namespace DataAutoFramework.Helper
             code = code.Replace("&quot;", "\"").Replace("\n", "\r\n");
             code = HttpUtility.UrlEncode(code, Encoding.UTF8);
             StringBuilder payload = new StringBuilder();
-            payload.Append("\"codeSrc\":\"").Append(code).Append("\",\"skip_string\":false,\"columnLimit\":\"80\"");
+            payload.Append("{\"codeSrc\":\"").Append(code).Append("\",\"skip_string\":false,\"columnLimit\":\"80\"}");
             using var client = new HttpClient();
-            var content = new StringContent(payload.ToString(), Encoding.UTF8, "application/json");
+            var content = new StringContent(payload.ToString(), new MediaTypeHeaderValue("text/plain"));
             var result = await client.PostAsync(requestUrl, content);
+            Console.WriteLine(await result.Content.ReadAsStringAsync());
             var newCode = await result.Content.ReadFromJsonAsync<CodeBlock>();
             return newCode.CodeDst;
         }
