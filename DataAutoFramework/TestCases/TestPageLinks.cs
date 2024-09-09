@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using DataAutoFramework.Helper;
 using NUnit.Framework.Legacy;
 using System.Collections;
+using System.Text.RegularExpressions;
 
 namespace DataAutoFramework.TestCases
 {
@@ -53,6 +54,50 @@ namespace DataAutoFramework.TestCases
             }
             
             ClassicAssert.Zero(errorList.Count, testLink + " has error link at " + string.Join(",", errorList));
+        }
+
+        [Test]
+        [TestCaseSource(nameof(TestLinks))]
+        public void TestCrossLinks(string testLink)
+        {
+            var web = new HtmlWeb();
+            var doc = web.Load(testLink);
+            var failCount = 0;
+            var failMsg = "";
+
+            foreach (HtmlNode aNode in doc.DocumentNode.SelectNodes("//a"))
+            {
+                string content = aNode.InnerText;
+                if (Regex.Replace(aNode.InnerText, @"\s", "") == "" || aNode.GetAttributeValue("title", "") == "Permalink to this headline" || aNode.GetAttributeValue("href", "") == "#")
+                {
+                    continue;
+                }
+
+                string link = aNode.GetAttributeValue("href", "");
+                var subContent = content.ToLower().Replace(".", " ").Split(" ");
+                var flag = false;
+
+                foreach (string s in subContent)
+                {
+                    if (link.ToLower().Replace(".", " ").Contains(s))
+                    {
+                        flag = true;
+                        break;
+                    }
+                    else
+                    {
+                        continue;
+                    }
+                }
+
+                if (!flag)
+                {
+                    failCount++;
+                    failMsg = failMsg + content + ": " + link + "\n";
+                }
+            }
+
+            ClassicAssert.Zero(failCount, failMsg);
         }
     }
 }
