@@ -71,7 +71,7 @@ namespace DataAutoFramework.TestCases
         {
             var errorList = new List<string>();
             var web = new HtmlWeb();
-            var doc = web.Load("https://azuresdkdocs.blob.core.windows.net/$web/python/azure-mixedreality-remoterendering/1.0.0b2/index.html#authenticating-with-an-azure-active-directory-credential");
+            var doc = web.Load(testLink);
             MatchCollection matches = Regex.Matches(doc.DocumentNode.SelectSingleNode("/html").InnerText, @"\[.*\]\[.*[^source]\]");
             foreach(Match match in matches)
             {
