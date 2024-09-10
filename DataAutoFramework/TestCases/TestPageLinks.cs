@@ -99,5 +99,20 @@ namespace DataAutoFramework.TestCases
 
             ClassicAssert.Zero(failCount, failMsg);
         }
+
+        [Test]
+        [TestCaseSource(nameof(TestLinks))]
+        public void TestLinkNotDisplayed(string testLink)
+        {
+            var errorList = new List<string>();
+            var web = new HtmlWeb();
+            var doc = web.Load(testLink);
+            MatchCollection matches = Regex.Matches(doc.DocumentNode.SelectSingleNode("/html").InnerText, @"\[.*\]\[.*[^source]\]");
+            foreach(Match match in matches)
+            {
+                errorList.Add(match.Value);
+            }
+            ClassicAssert.Zero(errorList.Count, string.Join("\n", errorList));
+        }
     }
 }
