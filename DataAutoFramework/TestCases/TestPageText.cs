@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Net.Mime.MediaTypeNames;
+using System.Text.RegularExpressions;
 
 namespace DataAutoFramework.TestCases
 {
@@ -61,6 +63,21 @@ namespace DataAutoFramework.TestCases
             }
 
             ClassicAssert.Zero(errorList.Count, testLink + " has wrong format" + string.Join(",", errorList));
+        }
+
+        [Test]
+        [TestCaseSource(nameof(TestLinks))]
+        public void TestLinkNotDisplayed(string testLink)
+        {
+            var errorList = new List<string>();
+            var web = new HtmlWeb();
+            var doc = web.Load("https://azuresdkdocs.blob.core.windows.net/$web/python/azure-mixedreality-remoterendering/1.0.0b2/index.html#authenticating-with-an-azure-active-directory-credential");
+            MatchCollection matches = Regex.Matches(doc.DocumentNode.SelectSingleNode("/html").InnerText, @"\[.*\]\[.*[^source]\]");
+            foreach(Match match in matches)
+            {
+                errorList.Add(match.Value);
+            }
+            ClassicAssert.Zero(errorList.Count, string.Join("\n", errorList));
         }
     }
 }
