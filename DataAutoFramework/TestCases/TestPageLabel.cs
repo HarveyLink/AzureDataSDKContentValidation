@@ -81,8 +81,6 @@ namespace DataAutoFramework.TestCases
                 }
             }
 
-
-            // 关闭浏览器
             await browser.CloseAsync();
 
             ClassicAssert.Zero(errorList.Count, testLink + " has extra label of  " + string.Join(",", errorList));
