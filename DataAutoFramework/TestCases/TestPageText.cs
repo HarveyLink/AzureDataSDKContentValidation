@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Net.Mime.MediaTypeNames;
+using System.Text.RegularExpressions;
 
 namespace DataAutoFramework.TestCases
 {
@@ -61,6 +63,25 @@ namespace DataAutoFramework.TestCases
             }
 
             ClassicAssert.Zero(errorList.Count, testLink + " has wrong format" + string.Join(",", errorList));
+        }
+
+        [Test]
+        [TestCaseSource(nameof(TestLinks))]
+        public void TestBlankNode(string testLink)
+        {
+            var blankNodeCount = 0;
+            var web = new HtmlWeb();
+            var doc = web.Load(testLink);
+            HtmlNodeCollection items = doc.DocumentNode.SelectNodes("//div[contains(@class, 'admonition seealso')]/ul[contains(@class, 'simple')]/li");
+            if(items != null && items.Count > 0)
+            {
+                foreach (var item in items)
+                {
+                    blankNodeCount += String.IsNullOrEmpty(item.InnerText) ? 1 : 0;
+                }
+            }
+            
+            ClassicAssert.Zero(blankNodeCount);
         }
     }
 }
