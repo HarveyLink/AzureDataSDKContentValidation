@@ -33,7 +33,6 @@ namespace DataAutoFramework.TestCases
         public async Task TestExtraLabel(string testLink)
         {
             var errorList = new List<string>();
-
             var labelList = new List<string> { 
                 "<br",
                 "<h1",
@@ -62,15 +61,11 @@ namespace DataAutoFramework.TestCases
                 "&apos"
             };
 
-
             var playwright = await Playwright.CreateAsync();
             var browser = await playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions { Headless = true });
             var page = await browser.NewPageAsync();
-
             await page.GotoAsync(testLink);
-
             var text = await page.Locator("html").InnerTextAsync();
-
 
             foreach (var label in labelList)
             {

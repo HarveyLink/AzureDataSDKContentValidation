@@ -33,47 +33,32 @@ namespace DataAutoFramework.TestCases
                 "https://azuresdkdocs.blob.core.windows.net/$web/python/azure-mixedreality-remoterendering/1.0.0b2/azure.mixedreality.remoterendering.html#azure.mixedreality.remoterendering.RenderingSessionSize"
             };
 
-
         }
-
 
         [Test]
         [TestCaseSource(nameof(TestLinks))]
         public async Task TestExtraLabel(string testLink)
         {
             var errorList = new List<string>();
-
             var playwright = await Playwright.CreateAsync();
-
             var browser = await playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions { Headless = true });
-
             var page = await browser.NewPageAsync();
-
             await page.GotoAsync(testLink);
 
             var classList = await page.Locator(".py.class").AllAsync();
-
             var pyClassParamMap = await GetParamMap(page, ".py.class");
-
             var pyMethodParamMap = await GetParamMap(page, ".py.method");
-
             var pyClassErrorList = await ValidParamMap(pyClassParamMap, true);
-
             var pyMethodErrorList = await ValidParamMap(pyMethodParamMap, false); 
 
             errorList.AddRange(pyClassErrorList);
             errorList.AddRange(pyMethodErrorList);
-
-
             errorList = errorList.Distinct().ToList();
 
             await browser.CloseAsync();
 
             ClassicAssert.Zero(errorList.Count, testLink + " has  wrong type annotations of  " + string.Join(",", errorList));
         }
-
-
-
 
         bool IsCorrectTypeAnnotation(string text)
         {
@@ -99,14 +84,9 @@ namespace DataAutoFramework.TestCases
             }
         }
 
-
         async Task<Dictionary<string, IReadOnlyList<ILocator>>> GetParamMap(IPage page, string selector)
         {
-
-
             Dictionary<string, IReadOnlyList<ILocator>> paramMap = new Dictionary<string, IReadOnlyList<ILocator>>();
-
-
             var HTMLElementList = await page.Locator(selector).AllAsync();
 
             for (int i = 0; i < HTMLElementList.Count; i++)
@@ -138,7 +118,6 @@ namespace DataAutoFramework.TestCases
                     Console.WriteLine($"Empty argument : {dtId}");
                 }
 
-
                 for (int i = 0; i < paramList.Count; i++)
                 {
                     var text = await paramList[i].InnerTextAsync();
@@ -148,10 +127,7 @@ namespace DataAutoFramework.TestCases
                         errorList.Add($"Missing type annotations : {dtId}");
                         Console.WriteLine($"type argument : {text}");
                     }
-
                 }
-
-
             }
 
             return errorList;
