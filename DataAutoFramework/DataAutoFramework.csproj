@@ -11,6 +11,8 @@
     <PackageReference Include="CodeParser" Version="2.0.0" />
     <PackageReference Include="HtmlAgilityPack" Version="1.11.65" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.0" />
+    <PackageReference Include="Microsoft.Playwright" Version="1.46.0" />
+    <PackageReference Include="Microsoft.Playwright.NUnit" Version="1.46.0" />
     <PackageReference Include="NUnit" Version="4.2.2" />
     <PackageReference Include="NUnit3TestAdapter" Version="4.6.0" />
   </ItemGroup>
