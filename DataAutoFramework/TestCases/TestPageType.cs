@@ -28,10 +28,13 @@ namespace DataAutoFramework.TestCases
                 "https://azuresdkdocs.blob.core.windows.net/$web/python/azure-ai-inference/1.0.0b3/azure.ai.inference.aio.html",
                 "https://azuresdkdocs.blob.core.windows.net/$web/python/azure-ai-inference/1.0.0b3/index.html",
                 "https://azuresdkdocs.blob.core.windows.net/$web/python/azure-ai-generative/1.0.0b8/azure.ai.generative.evaluate.metrics.html",
-                "https://azuresdkdocs.blob.core.windows.net/$web/python/azure-mgmt-advisor/9.0.0/azure.mgmt.advisor.operations.html",
                 "https://azuresdkdocs.blob.core.windows.net/$web/python/azure-mgmt-web/7.3.0/azure.mgmt.web.v2023_12_01.operations.html",
-                "https://azuresdkdocs.blob.core.windows.net/$web/python/azure-mixedreality-remoterendering/1.0.0b2/azure.mixedreality.remoterendering.html#azure.mixedreality.remoterendering.RenderingSessionSize"
+                "https://azuresdkdocs.blob.core.windows.net/$web/python/azure-mixedreality-remoterendering/1.0.0b2/azure.mixedreality.remoterendering.html#azure.mixedreality.remoterendering.RenderingSessionSize",
+                "https://learn.microsoft.com/en-us/python/api/azure-mgmt-batch/azure.mgmt.batch.models.automaticosupgradepolicy",
+                "https://learn.microsoft.com/en-us/python/api/azure-mgmt-batch/azure.mgmt.batch.models.azureresource",
+                "https://learn.microsoft.com/en-us/python/api/azure-cosmos/azure.cosmos.aio.databaseproxy"
             };
+
 
         }
 
@@ -45,11 +48,10 @@ namespace DataAutoFramework.TestCases
             var page = await browser.NewPageAsync();
             await page.GotoAsync(testLink);
 
-            var classList = await page.Locator(".py.class").AllAsync();
             var pyClassParamMap = await GetParamMap(page, ".py.class");
             var pyMethodParamMap = await GetParamMap(page, ".py.method");
             var pyClassErrorList = await ValidParamMap(pyClassParamMap, true);
-            var pyMethodErrorList = await ValidParamMap(pyMethodParamMap, false); 
+            var pyMethodErrorList = await ValidParamMap(pyMethodParamMap, false);
 
             errorList.AddRange(pyClassErrorList);
             errorList.AddRange(pyMethodErrorList);
@@ -103,7 +105,8 @@ namespace DataAutoFramework.TestCases
         }
 
 
-        async Task<List<string>> ValidParamMap(Dictionary<string, IReadOnlyList<ILocator>> paramMap,bool isClass) {
+        async Task<List<string>> ValidParamMap(Dictionary<string, IReadOnlyList<ILocator>> paramMap, bool isClass)
+        {
 
             var errorList = new List<string>();
 
