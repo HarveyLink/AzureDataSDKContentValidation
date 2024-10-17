@@ -1,20 +1,7 @@
-﻿using HtmlAgilityPack;
-using NUnit.Framework.Legacy;
+﻿using NUnit.Framework.Legacy;
 using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Net.Mime.MediaTypeNames;
 using Microsoft.Playwright;
-using DataAutoFramework.Helper;
-using System.Reflection.Emit;
 using System.Text.RegularExpressions;
-using static System.Runtime.InteropServices.JavaScript.JSType;
-using System.Data.SqlTypes;
-using System.Reflection.Metadata;
-using System.Data.Common;
 
 namespace DataAutoFramework.TestCases
 {

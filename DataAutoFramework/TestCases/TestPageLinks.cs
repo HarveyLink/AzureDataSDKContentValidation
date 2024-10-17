@@ -1,15 +1,10 @@
 ﻿using HtmlAgilityPack;
-using NUnit;
 using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using DataAutoFramework.Helper;
 using NUnit.Framework.Legacy;
-using System.Collections;
 using System.Text.RegularExpressions;
+using System.Text.Json;
+using Microsoft.Playwright;
 
 namespace DataAutoFramework.TestCases
 {
@@ -17,15 +12,18 @@ namespace DataAutoFramework.TestCases
     {
         public static List<string> TestLinks { get; set; }
 
+        public static Dictionary<string, string> SpecialLinks { get; set; }
+
         static TestPageLinks()
         {
-            TestLinks = new List<string>
-            {
-                "https://azuresdkdocs.blob.core.windows.net/$web/python/azure-mgmt-agrifood/1.0.0b3/index.html",
-                "https://azuresdkdocs.blob.core.windows.net/$web/python/azure-mgmt-advisor/9.0.0/azure.mgmt.advisor.operations.html",
-                "https://azuresdkdocs.blob.core.windows.net/$web/python/azure-ai-inference/1.0.0b3/azure.ai.inference.aio.html",
-                "https://azuresdkdocs.blob.core.windows.net/$web/python/azure-mixedreality-remoterendering/1.0.0b2/azure.mixedreality.remoterendering.html#"
-            };
+            TestLinks = JsonSerializer.Deserialize<List<string>>(File.ReadAllText("appsettings.json")) ?? new List<string>();
+
+            SpecialLinks = new Dictionary<string, string>();
+
+            SpecialLinks.Add("Read in English", "https://learn.microsoft.com/en-us/python/api/overview/azure/app-configuration?view=azure-python");
+            SpecialLinks.Add("our contributor guide", "https://github.com/Azure/azure-sdk-for-python/blob/main/CONTRIBUTING.md");
+            // SpecialLinks.Add("English (United States)", "/en-us/locale?target=https%3A%2F%2Flearn.microsoft.com%2Fen-us%2Fpython%2Fapi%2Foverview%2Fazure%2Fapp-configuration%3Fview%3Dazure-python");
+            SpecialLinks.Add("Privacy", "https://go.microsoft.com/fwlink/?LinkId=521839");
         }
         
         [Test]
@@ -59,28 +57,39 @@ namespace DataAutoFramework.TestCases
 
         [Test]
         [TestCaseSource(nameof(TestLinks))]
-        public void TestCrossLinks(string testLink)
+        public async Task TestCrossLinks(string testLink)
         {
-            var web = new HtmlWeb();
-            var doc = web.Load(testLink);
+            var playwright = await Playwright.CreateAsync();
+            var browser = await playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions { Headless = true });
+            var page = await browser.NewPageAsync();
+            await page.GotoAsync(testLink);
+
+            var hrefs = page.Locator("#main-column").Locator("a");
             var failCount = 0;
             var failMsg = "";
 
-            foreach (HtmlNode aNode in doc.DocumentNode.SelectNodes("//a"))
+            for(var index = 0; index < await hrefs.CountAsync(); index++)
             {
-                string content = aNode.InnerText;
-                if (Regex.Replace(aNode.InnerText, @"\s", "") == "" || aNode.GetAttributeValue("title", "") == "Permalink to this headline" || aNode.GetAttributeValue("href", "") == "#")
+                var href = hrefs.Nth(index);
+                var attri = href.GetAttributeAsync("href").Result;
+                var text = href.InnerTextAsync().Result;
+
+                if (String.IsNullOrEmpty(text.Trim()) || text.Trim() == "English (United States)")
                 {
                     continue;
                 }
 
-                string link = aNode.GetAttributeValue("href", "");
-                var subContent = content.ToLower().Replace(".", " ").Split(" ");
+                if (SpecialLinks.ContainsKey(text.Trim()) && SpecialLinks[text.Trim()] == attri)
+                {
+                    continue;
+                }
+
+                var subContent = text.ToLower().Replace("-", " ").Replace("@", " ").Split(" ");
                 var flag = false;
 
                 foreach (string s in subContent)
                 {
-                    if (link.ToLower().Replace(".", " ").Contains(s))
+                    if (attri?.ToLower().Replace(".", "").Contains(s) ?? false)
                     {
                         flag = true;
                         break;
@@ -94,7 +103,7 @@ namespace DataAutoFramework.TestCases
                 if (!flag)
                 {
                     failCount++;
-                    failMsg = failMsg + content + ": " + link + "\n";
+                    failMsg = failMsg + text.Trim() + ": " + attri + "\n";
                 }
             }
 
