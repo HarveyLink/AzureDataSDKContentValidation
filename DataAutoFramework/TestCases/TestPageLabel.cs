@@ -16,7 +16,10 @@ namespace DataAutoFramework.TestCases
                 "https://azuresdkdocs.blob.core.windows.net/$web/python/azure-mgmt-advisor/9.0.0/azure.mgmt.advisor.operations.html",
                 "https://azuresdkdocs.blob.core.windows.net/$web/python/azure-ai-inference/1.0.0b3/azure.ai.inference.aio.html",
                 "https://azuresdkdocs.blob.core.windows.net/$web/python/azure-ai-inference/1.0.0b3/index.html",
-                "https://azuresdkdocs.blob.core.windows.net/$web/python/azure-ai-generative/1.0.0b8/azure.ai.generative.evaluate.metrics.html"
+                "https://azuresdkdocs.blob.core.windows.net/$web/python/azure-ai-generative/1.0.0b8/azure.ai.generative.evaluate.metrics.html",
+                "https://learn.microsoft.com/en-us/python/api/azure-mgmt-batch/azure.mgmt.batch.models.automaticosupgradepolicy",
+                "https://learn.microsoft.com/en-us/python/api/azure-mgmt-batch/azure.mgmt.batch.models.azureresource",
+                "https://learn.microsoft.com/en-us/python/api/azure-cosmos/azure.cosmos.aio.databaseproxy"
             };
         }
 
@@ -47,6 +50,7 @@ namespace DataAutoFramework.TestCases
                 "<th",
                 "<img",
                 "<code",
+                "<xref",
                 "&amp;",
                 "&lt",
                 "&gt",
