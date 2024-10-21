@@ -13,19 +13,12 @@ namespace DataAutoFramework.TestCases
         {
             TestLinks = new List<string>
             {
-                "https://azuresdkdocs.blob.core.windows.net/$web/python/azure-mgmt-agrifood/1.0.0b3/index.html",
-                "https://azuresdkdocs.blob.core.windows.net/$web/python/azure-mgmt-advisor/9.0.0/azure.mgmt.advisor.operations.html",
-                "https://azuresdkdocs.blob.core.windows.net/$web/python/azure-ai-inference/1.0.0b3/azure.ai.inference.aio.html",
-                "https://azuresdkdocs.blob.core.windows.net/$web/python/azure-ai-inference/1.0.0b3/index.html",
-                "https://azuresdkdocs.blob.core.windows.net/$web/python/azure-ai-generative/1.0.0b8/azure.ai.generative.evaluate.metrics.html",
-                "https://azuresdkdocs.blob.core.windows.net/$web/python/azure-mgmt-web/7.3.0/azure.mgmt.web.v2023_12_01.operations.html",
-                "https://azuresdkdocs.blob.core.windows.net/$web/python/azure-mixedreality-remoterendering/1.0.0b2/azure.mixedreality.remoterendering.html#azure.mixedreality.remoterendering.RenderingSessionSize",
-                "https://learn.microsoft.com/en-us/python/api/azure-mgmt-batch/azure.mgmt.batch.models.automaticosupgradepolicy",
-                "https://learn.microsoft.com/en-us/python/api/azure-mgmt-batch/azure.mgmt.batch.models.azureresource",
-                "https://learn.microsoft.com/en-us/python/api/azure-cosmos/azure.cosmos.aio.databaseproxy",
-                "https://learn.microsoft.com/en-us/python/api/azure-storage-file-share/azure.storage.fileshare.shareprotocols",
-                "https://learn.microsoft.com/en-us/python/api/azure-mgmt-compute/azure.mgmt.compute.v2015_06_15.operations.virtualmachinesizesoperations",
-                "https://learn.microsoft.com/en-us/python/api/azure-mgmt-advisor/azure.mgmt.advisor.aio.operations.suppressionsoperations"
+                "https://learn.microsoft.com/en-us/python/api/overview/azure/app-configuration?view=azure-python",
+                "https://learn.microsoft.com/en-us/python/api/overview/azure/appconfiguration-readme?view=azure-python",
+                "https://learn.microsoft.com/en-us/python/api/azure-appconfiguration/azure.appconfiguration?view=azure-python",
+                "https://learn.microsoft.com/en-us/python/api/azure-appconfiguration/azure.appconfiguration.aio?view=azure-python",
+                "https://learn.microsoft.com/en-us/python/api/azure-appconfiguration/azure.appconfiguration.aio.azureappconfigurationclient?view=azure-python",
+                "https://learn.microsoft.com/en-us/python/api/azure-appconfiguration/azure.appconfiguration.azureappconfigurationclient?view=azure-python"
             };
 
         }
