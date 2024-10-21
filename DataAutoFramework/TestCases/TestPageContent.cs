@@ -2,13 +2,6 @@
 using HtmlAgilityPack;
 using NUnit.Framework.Legacy;
 using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Net.Mime.MediaTypeNames;
-using System.Text.RegularExpressions;
 
 namespace DataAutoFramework.TestCases
 {
@@ -20,11 +13,12 @@ namespace DataAutoFramework.TestCases
         {
             TestLinks = new List<string>
             {
-                "https://azuresdkdocs.blob.core.windows.net/$web/python/azure-mgmt-agrifood/1.0.0b3/index.html",
-                "https://azuresdkdocs.blob.core.windows.net/$web/python/azure-mgmt-advisor/9.0.0/azure.mgmt.advisor.operations.html",
-                "https://azuresdkdocs.blob.core.windows.net/$web/python/azure-ai-inference/1.0.0b3/azure.ai.inference.aio.html",
-                "https://azuresdkdocs.blob.core.windows.net/$web/python/azure-ai-inference/1.0.0b3/index.html",
-                "https://azuresdkdocs.blob.core.windows.net/$web/python/azure-ai-generative/1.0.0b8/azure.ai.generative.evaluate.metrics.html"
+                "https://learn.microsoft.com/en-us/python/api/overview/azure/app-configuration?view=azure-python",
+                "https://learn.microsoft.com/en-us/python/api/overview/azure/appconfiguration-readme?view=azure-python",
+                "https://learn.microsoft.com/en-us/python/api/azure-appconfiguration/azure.appconfiguration?view=azure-python",
+                "https://learn.microsoft.com/en-us/python/api/azure-appconfiguration/azure.appconfiguration.aio?view=azure-python",
+                "https://learn.microsoft.com/en-us/python/api/azure-appconfiguration/azure.appconfiguration.aio.azureappconfigurationclient?view=azure-python",
+                "https://learn.microsoft.com/en-us/python/api/azure-appconfiguration/azure.appconfiguration.azureappconfigurationclient?view=azure-python"
             };
         }
 
