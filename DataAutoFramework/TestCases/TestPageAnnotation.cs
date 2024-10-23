@@ -5,11 +5,11 @@ using System.Text.RegularExpressions;
 
 namespace DataAutoFramework.TestCases
 {
-    public class TestPageType
+    public class TestPageAnnotation
     {
         public static List<string> TestLinks { get; set; }
 
-        static TestPageType()
+        static TestPageAnnotation()
         {
             TestLinks = new List<string>
             {
@@ -18,14 +18,14 @@ namespace DataAutoFramework.TestCases
                 "https://learn.microsoft.com/en-us/python/api/azure-appconfiguration/azure.appconfiguration?view=azure-python",
                 "https://learn.microsoft.com/en-us/python/api/azure-appconfiguration/azure.appconfiguration.aio?view=azure-python",
                 "https://learn.microsoft.com/en-us/python/api/azure-appconfiguration/azure.appconfiguration.aio.azureappconfigurationclient?view=azure-python",
-                "https://learn.microsoft.com/en-us/python/api/azure-appconfiguration/azure.appconfiguration.azureappconfigurationclient?view=azure-python"
+                "https://learn.microsoft.com/en-us/python/api/azure-appconfiguration/azure.appconfiguration.azureappconfigurationclient?view=azure-python",
             };
 
         }
 
         [Test]
         [TestCaseSource(nameof(TestLinks))]
-        public async Task TestExtraLabel(string testLink)
+        public async Task TestMissingTypeAnnotations(string testLink)
         {
             var errorList = new List<string>();
             var playwright = await Playwright.CreateAsync();
